@@ -1,0 +1,20 @@
+<form class="aui" id="macro-form">
+    <input type="hidden" name="propertyKey" id="propertyKey" value="$action.getParameter('propertyKey')" />
+    <div class="field-group">
+        <label for="label">Label:</label>
+        <input type="text" name="label" id="label" value="$action.getParameter('label')" />
+    </div>
+    <div class="field-group">
+        <label for="values">Values (comma separated):</label>
+        <input type="text" name="values" id="values" value="$action.getParameter('values')" />
+    </div>
+    <div class="field-group">
+        <label for="default">By default:</label>
+        <input type="text" name="default" id="default" value="$action.getParameter('default')" />
+    </div>
+    <div class="buttons">
+        <button class="aui-button aui-button-primary" type="submit">Submit</button>
+    </div>
+</form>
+<script src="$webResourceManager.getStaticResourcePrefix()/download/resources/eu.tyr1k.drdwlist:drdwlist-resources/js/drdwlist-macro-editor.js"></script>
+

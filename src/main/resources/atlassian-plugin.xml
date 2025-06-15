@@ -1,0 +1,52 @@
+<atlassian-plugin key="${atlassian.plugin.key}" name="${project.name}" plugins-version="2">
+    <plugin-info>
+        <description>${project.description}</description>
+        <version>${project.version}</version>
+        <vendor name="${project.organization.name}" url="${project.organization.url}" />
+        <param name="plugin-icon">images/pluginIcon.png</param>
+        <param name="plugin-logo">images/pluginLogo.png</param>
+    </plugin-info>
+
+    <!-- add our i18n resource -->
+    <resource type="i18n" name="i18n" location="drdwlist"/>
+    
+    <!-- add our web resources -->
+    <web-resource key="drdwlist-resources" name="drdwlist Web Resources">
+        <dependency>com.atlassian.auiplugin:ajs</dependency>
+        
+        <resource type="download" name="drdwlist.css" location="/css/drdwlist.css"/>
+        <resource type="download" name="drdwlist.js" location="/js/drdwlist.js"/>
+        <resource type="download" name="images/" location="/images"/>
+
+        <context>drdwlist</context>
+    </web-resource>
+    <web-panel key="drdwlist-panel"
+               location="system.admin/globalsettings"
+               name="Drdwlist Dropdown Panel"
+               weight="100">
+        <resource type="velocity" name="view" location="templates/drdwlist-panel.vm"/>
+    </web-panel>
+
+
+    <xhtml-macro
+        name="drdwlist"
+        key="drdwlist"
+        class="eu.tyr1k.drdwlist.drdwlistMacro">
+        <parameters>
+            <parameter name="propertyKey" type="string" required="false" hidden="true"/>
+            <parameter name="label" type="string" required="false"/>
+            <parameter name="values" type="string" required="false"/>
+            <parameter name="default" type="string" required="false"/>
+        </parameters>
+        <resource type="velocity" name="editor" location="templates/drdwlist-macro-editor.vm"/>
+        <resource type="download" name="js" location="js/drdwlist-macro-editor.js"/>
+    </xhtml-macro>
+
+    <servlet name="Drdwlist Drop Save" key="drdwlist-save" class="eu.tyr1k.drdwlist.drdwlistServlet">
+        <description>Save platform drop value</description>
+        <url-pattern>/drdwlist/save</url-pattern>
+    </servlet>
+
+
+</atlassian-plugin>
+

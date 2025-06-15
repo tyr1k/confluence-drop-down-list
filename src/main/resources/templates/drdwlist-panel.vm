@@ -1,0 +1,9 @@
+<h2>Drdwlist Drop</h2>
+<form>
+    <label for="drdwlist-select">Select platform:</label>
+    <select id="drdwlist-select" name="platform">
+        <option value="dev">Dev</option>
+        <option value="stage">Stage</option>
+        <option value="prod">Prod</option>
+    </select>
+</form>
