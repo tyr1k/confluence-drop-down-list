@@ -1,0 +1,46 @@
+name: Build and Release Atlassian Plugin
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Java 11
+        uses: actions/setup-java@v3
+        with:
+          distribution: temurin
+          java-version: '11'
+
+      - name: Download and install Atlassian Plugin SDK
+        run: |
+          curl -L -o atlassian-plugin-sdk.tar.gz https://marketplace.atlassian.com/download/plugins/atlassian-plugin-sdk-tgz
+          sudo tar -xvzf atlassian-plugin-sdk.tar.gz -C /opt
+          SDK_DIR=$(ls -d /opt/atlassian-plugin-sdk-*/)
+          sudo mv "$SDK_DIR" /opt/atlassian-plugin-sdk
+          sudo chmod -R +x /opt/atlassian-plugin-sdk/bin
+          echo "/opt/atlassian-plugin-sdk/bin" >> $GITHUB_PATH
+
+      - name: Fix permissions for SDK bin directory
+        run: sudo chmod -R a+x /opt/atlassian-plugin-sdk/bin /opt/atlassian-plugin-sdk/apache-maven-3.9.8/bin
+      - name: Verify Atlassian Plugin SDK version
+        run: atlas-version
+
+      - name: Build Atlassian Plugin
+        run: atlas-package
+
+      - name: Upload Release Artifact
+        uses: softprops/action-gh-release@v1
+        with:
+          files: target/*.jar
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+
